@@ -20,3 +20,4 @@ $ cmake -DCMAKE_PREFIX_PATH=../libtorch ..
 $ make
 $ ./example-app ../model.pt <img_path>
 ```
+![output](https://github.com/Rokuki/pytorch-cpp/blob/master/output.png)
