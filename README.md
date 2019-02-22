@@ -1,5 +1,10 @@
 # pytorch-cpp
 ## Usage
+Download libtorch
+```
+$ wget https://download.pytorch.org/libtorch/nightly/cpu/libtorch-shared-with-deps-latest.zip
+$ unzip libtorch-shared-with-deps-latest.zip
+```
 Tracing model and save model.pt
 1. Modify to_cpp.py
 2. Generate model.pt
