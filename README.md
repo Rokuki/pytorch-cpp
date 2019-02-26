@@ -16,7 +16,7 @@ Build
 ```
 $ cd pytorch-cpp
 $ mkdir build;cd build
-$ cmake -DCMAKE_PREFIX_PATH=../libtorch ..
+$ cmake -DCMAKE_PREFIX_PATH=<path to libtorch> ..
 $ make
 $ ./example-app ../model.pt <img_path>
 ```
