@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.9 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.0 FATAL_ERROR)
 project(custom_ops)
 
 find_package(Torch REQUIRED)
@@ -8,5 +8,5 @@ include_directories( ${OpenCV_INCLUDE_DIRS} )
 add_executable(example-app example-app.cpp)
 link_directories(${OpenCV_LIBRARY_DIRS})
 target_link_libraries(example-app ${TORCH_LIBRARIES} ${OpenCV_LIBS})
-set_property(TARGET example-app PROPERTY CXX_STANDARD 11)
+set_property(TARGET example-app PROPERTY CXX_STANDARD 14)
 
