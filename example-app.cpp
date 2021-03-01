@@ -16,18 +16,15 @@ int main(int argc, const char* argv[]) {
   }
 
   // Deserialize the ScriptModule from a file using torch::jit::load().
-  std::shared_ptr<torch::jit::script::Module> module = torch::jit::load(argv[1]);
+  torch::jit::script::Module module =  torch::jit::load(argv[1]);
 
   //module->to(at::kCUDA);
-
-  assert(module != nullptr);
-  std::cout << "ok\n";
 
   std::vector<torch::jit::IValue> inputs;
 
   cv::Mat image;
   image = cv::imread(argv[2], 1);
-  cv::cvtColor(image, image, CV_BGR2RGB);
+  cv::cvtColor(image, image, cv::COLOR_BGR2RGB);
   cv::Mat img_float;
   image.convertTo(img_float, CV_32F, 1.0/255);
   cv::resize(img_float, img_float, cv::Size(224, 224));
@@ -35,7 +32,7 @@ int main(int argc, const char* argv[]) {
   cout << "resize ok\n";
 
   //std::cout << img_float.at<cv::Vec3f>(56,34)[1] << std::endl;
-  auto img_tensor = torch::CPU(torch::kFloat32).tensorFromBlob(img_float.data, {1, 224, 224, 3});
+  auto img_tensor = torch::from_blob(img_float.data, { 1, image.rows, image.cols, 3 }).to(torch::kFloat32);
   img_tensor = img_tensor.permute({0,3,1,2});
   cout << "permute ok\n";
   img_tensor[0][0] = img_tensor[0][0].sub_(0.485).div_(0.229);
@@ -51,7 +48,7 @@ int main(int argc, const char* argv[]) {
   //inputs.push_back(torch::ones({1, 3, 224, 224}));
 
   // Execute the model and turn its output into a tensor.
-  at::Tensor output = module->forward(inputs).toTensor();
+  at::Tensor output = module.forward(inputs).toTensor();
   auto max_result = output.max(1, true);
   auto max_index = std::get<1>(max_result).item<float>();
 
